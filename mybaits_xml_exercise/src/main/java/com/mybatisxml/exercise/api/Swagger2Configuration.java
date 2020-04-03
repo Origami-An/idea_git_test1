@@ -48,7 +48,7 @@ public class Swagger2Configuration {
     }
 
     /**
-     * 第二个工作人员修改了此方法，测试啊啊啊ABCDEFG
+     * 第二个工作人员修改了此方法，测试啊啊啊ABCDEFG减减啊
      * @return
      */
     @Bean
