@@ -47,10 +47,6 @@ public class Swagger2Configuration {
                 .build();
     }
 
-    /**
-     * 第二个工作人员修改了此方法
-     * @return
-     */
     @Bean
     public ApiInfo apiInfo(){
         return new ApiInfoBuilder()
