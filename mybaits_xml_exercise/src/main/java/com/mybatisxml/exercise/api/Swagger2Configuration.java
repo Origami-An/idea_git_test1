@@ -48,7 +48,7 @@ public class Swagger2Configuration {
     }
 
     /**
-     * 第二个工作人员修改了此方法，测试啊啊
+     * 第二个工作人员修改了此方法，测试idea冲突再次修改
      * @return
      */
     @Bean
