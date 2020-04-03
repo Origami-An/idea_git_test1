@@ -51,6 +51,10 @@ public class Swagger2Configuration {
      * 第二个工作人员修改了此方法，测试啊啊啊ABCDEFG
      * @return
      */
+    /**
+     * 新增测试
+     * @return
+     */
     @Bean
     public ApiInfo apiInfo(){
         return new ApiInfoBuilder()
