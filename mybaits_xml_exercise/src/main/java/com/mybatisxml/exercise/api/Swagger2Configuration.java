@@ -20,11 +20,21 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class Swagger2Configuration {
 
+    /**
+     * 张三的模型
+     * @param environment
+     * @return
+     */
     @Bean
     public Docket zhangsanDocket(Environment environment){
         return new Docket(DocumentationType.SWAGGER_2).groupName("张三的项目");
     }
 
+    /**
+     * origami的模型
+     * @param environment
+     * @return
+     */
     @Bean
     public Docket origamiDocket(Environment environment){
 
