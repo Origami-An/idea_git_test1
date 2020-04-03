@@ -1,0 +1,25 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: xmlTest-servier
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/products2?characterEncoding=utf-8&useUnicode=true&serverTimezone=GMT&useSSL=false
+    username: root
+    password: root
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 180000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.mybatisxml.exercise.pojo
+  configuration:
+    map-underscore-to-camel-case: true

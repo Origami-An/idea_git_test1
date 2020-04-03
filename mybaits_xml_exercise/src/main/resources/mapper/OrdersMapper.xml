@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatisxml.exercise.mapper.OrdersMapper">
+
+    <resultMap id="ordersAndProductMap" type="orders">
+        <id property="id" column="id"/>
+        <result property="ordernum" column="ordernum"/>
+        <result property="ordertime" column="ordertime"/>
+        <result property="peoplecount" column="peoplecount"/>
+        <result property="orderdesc" column="orderdesc"/>
+        <result property="paytype" column="paytype"/>
+        <result property="orderstatus" column="orderstatus"/>
+        <result property="productid" column="productid"/>
+        <result property="memberid" column="memberid"/>
+        <association property="product" column="productid" javaType="product">
+            <id property="id" column="id"/>
+            <result property="productnum" column="productnum" />
+            <result property="productname" column="productname" />
+            <result property="cityname" column="cityname" />
+            <result property="departuretime" column="departuretime" />
+            <result property="productprice" column="productprice" />
+            <result property="productdesc" column="productdesc" />
+            <result property="productstatus" column="productstatus" />
+        </association>
+    </resultMap>
+    <!--内链接查询-->
+    <select id="getOrderAndProductByOrderId" resultMap="ordersAndProductMap">
+        select o.*,p.* from orders o inner join product p on o.id = #{orderId}  and o.productId = p.id
+    </select>
+
+
+    <resultMap id="orderAndProductMap2" type="orders">
+        <id property="id" column="id"/>
+        <result property="ordernum" column="ordernum"/>
+        <result property="ordertime" column="ordertime"/>
+        <result property="peoplecount" column="peoplecount"/>
+        <result property="orderdesc" column="orderdesc"/>
+        <result property="paytype" column="paytype"/>
+        <result property="orderstatus" column="orderstatus"/>
+        <result property="productid" column="productid"/>
+        <result property="memberid" column="memberid"/>
+        <association property="product" column="productid" javaType="product" select="com.mybatisxml.exercise.mapper.ProductMapper.getProductByOrderId"/>
+    </resultMap>
+    <!--二次查询-->
+    <select id="getOrderAndProductByOrderId2" parameterType="string" resultMap="orderAndProductMap2">
+        select * from orders where id = #{orderId}
+    </select>
+
+    <!--测试不写parameterType--><!--一个参数是最好指定，多个可以不用指定-->
+    <select id="getOrderAndProductByOrderId3" resultMap="orderAndProductMap2">
+        select * from orders where id = #{orderId}
+    </select>
+
+    <!--多个参数，通过注解获取-->
+    <select id="getOrderAndProductByOrderId4" resultMap="orderAndProductMap2">
+        select * from orders where id = #{orderId} and ordernum = #{orderNum}
+    </select>
+
+    <!--多个参数，通过Map获取-->
+    <select id="getOrderAndProductByOrderId5" parameterType="map" resultMap="orderAndProductMap2">
+        select * from orders where id = #{orderid} and ordernum = #{ordernum}
+    </select>
+
+    <!--多个参数，通过下标获取1（param方式）-->
+    <select id="getOrderAndProductByOrderId6" resultMap="orderAndProductMap2">
+        select * from orders where id = #{param1} and ordernum = #{param2}
+    </select>
+
+    <!--多个参数，通过存入对象来获取-->
+    <select id="getOrderAndProductByOrderId7" parameterType="orders" resultMap="orderAndProductMap2">
+        select * from orders where id = #{id} and ordernum = #{ordernum}
+    </select>
+</mapper>

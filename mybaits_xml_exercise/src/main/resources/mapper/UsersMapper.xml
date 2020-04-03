@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatisxml.exercise.mapper.UsersMapper">
+
+    <resultMap id="userRolesMap" type="Users">
+        <id property="id" column="id"/>
+        <result property="email" column="email"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="phoneNum" column="phoneNum"/>
+        <result property="status" column="status"/>
+        <result property="salt" column="u_salt"/>
+        <collection property="roleList" column="id" javaType="java.util.List" ofType="Role">
+            <!--因为两张表id是一样的，导致了重名为了效率指定别名，
+            见下面查询语句（用别名来查询），返回结果照样是id（并不是别名），
+            用别名只是为了防止id一样可能会造成两张表的id赋值两次-->
+            <id property="id" column="r_id"/>
+            <result property="roleName" column="roleName"/>
+            <result property="roleDesc" column="roleDesc"/>
+        </collection>
+    </resultMap>
+    <!--内连接查询-->
+    <select id="getUserWithListRoleByUserId" parameterType="string" resultMap="userRolesMap">
+        select u.id,u.salt u_salt,r.id r_id from
+            users u inner join users_role ur inner join role r
+                on u.id = #{userId} and ur.userId = u.id and r.id = ur.roleId
+    </select>
+
+
+    <resultMap id="userRolesMap2" type="Users">
+        <id property="id" column="id"/>
+        <result property="email" column="email"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="phoneNum" column="phoneNum"/>
+        <result property="status" column="status"/>
+        <result property="salt" column="salt"/>
+        <collection property="roleList" column="id" javaType="java.util.List" ofType="Role"
+                    select="com.mybatisxml.exercise.mapper.RoleMapper.getRoleListByUserId"/>
+    </resultMap>
+    <!--多段查询-->
+    <select id="getUserWithListRoleByUserId2" parameterType="string" resultMap="userRolesMap2">
+        select * from users where id = #{userId}
+    </select>
+
+    <!--根据id集合查询-->
+    <select id="getUserListWithRoleListByUserIdList" resultMap="userRolesMap2">
+        select * from users where id in
+        <foreach collection="uids" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </select>
+</mapper>
