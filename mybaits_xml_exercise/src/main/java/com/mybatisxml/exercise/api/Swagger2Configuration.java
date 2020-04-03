@@ -48,7 +48,7 @@ public class Swagger2Configuration {
     }
 
     /**
-     * 第二个工作人员修改了此方法，测试啊啊啊ABCDEF试试直接拉取
+     * 第二个工作人员修改了此方法
      * @return
      */
     @Bean
